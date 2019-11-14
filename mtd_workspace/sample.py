@@ -95,7 +95,7 @@ class Scene1(QGraphicsScene):
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.show()
         self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-        self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, )
+        self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     def keyPressEvent(self, event):
         self.keys_pressed.add(event.key())
