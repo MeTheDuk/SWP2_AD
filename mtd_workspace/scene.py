@@ -20,6 +20,7 @@ class Scene0(QGraphicsScene):
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
 
+
         # 배경 사진 설정
         bg = QGraphicsPixmapItem()
         bg.setPixmap(QPixmap("bg_brick.png"))
@@ -31,12 +32,17 @@ class Scene0(QGraphicsScene):
         self.player1.setPos(200, 200)
         self.addItem(self.player1)
 
+
         self.view = QGraphicsView(self)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # self.view.show() # scene 하나만 단일로 테스트 할때 활성화
         self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    # def border(self):
+    #     if
+
 
     def keyPressEvent(self, event):
         player.keys_pressed.add(event.key())
