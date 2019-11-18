@@ -8,8 +8,7 @@ from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
 keys_pressed = set()
 
 PLAYER_SPEED = 10
-JUMP_HEIGHT = 300
-JUMP_SPEED = 5
+JUMP_HEIGHT = 120
 GRAVITY = 10
 
 class Player1(QGraphicsPixmapItem):
@@ -18,7 +17,9 @@ class Player1(QGraphicsPixmapItem):
         QGraphicsPixmapItem.__init__(self, parent)
         self.setPixmap(QPixmap("f_left_1.png"))
         self.setScale(0.25)
-        self.onGround = True
+        self.jumped = False
+        self.standing = False
+        self.lastjump_y = 0
 
     def move(self, keys_pressed):
         dx = 0
@@ -46,13 +47,25 @@ class Player1(QGraphicsPixmapItem):
 
         self.setPos(self.x()+dx, self.y())
 
-    def gravitiy(self):
-        gravity = GRAVITY
+    def gravity_and_jump(self):
+        if self.jumped is True and self.standing is False:
+            self.setPos(self.x(), self.y() - GRAVITY)
+        elif self.jumped is False and self.standing is False:
+            self.setPos(self.x(), self.y() + GRAVITY)
 
+        if self.lastjump_y - self.y() >= JUMP_HEIGHT:
+            self.jumped = False
 
+    def grounddetect(self):
+        if self.y() >= 520:
+            self.jumped = False
+            self.standing = True
+        # if self.collidesWithItem():
 
-    # def jump(self, keys_pressed, jump_available):
-    #     jump_available = True
-    #     if (Qt.Key_Up in keys_pressed) and (jump_available == True):
-    #         for height in range(60):
-    #             self.setPos(self.x()+)
+    def jump(self, keys_pressed):
+        if (Qt.Key_Up in keys_pressed) and (self.jumped is False):
+            self.jumped = True
+            self.standing = False
+            self.setPos(self.x(), self.y()-5)
+            self.lastjump_y = self.y()
+

@@ -9,7 +9,7 @@ import player
 
 SCREEN_WIDTH            = 800
 SCREEN_HEIGHT           = 600
-FRAME_TIME_MS           = 16  # 16ms에 1번 = 960ms(0.96초)에 60번!
+FRAME_TIME_MS           = 16  # 0.016s=16ms에 1번 = 960ms(0.96초)에 60번!
 
 
 class Scene0(QGraphicsScene):
@@ -20,7 +20,6 @@ class Scene0(QGraphicsScene):
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
 
-
         # 배경 사진 설정
         bg = QGraphicsPixmapItem()
         bg.setPixmap(QPixmap("bg_brick.png"))
@@ -29,9 +28,8 @@ class Scene0(QGraphicsScene):
 
         # 파이어보이 생성 및 좌표 지정
         self.player1 = player.Player1()
-        self.player1.setPos(200, 200)
+        self.player1.setPos(200, 515)  # 땅에 선것처럼 하려면 540임
         self.addItem(self.player1)
-
 
         self.view = QGraphicsView(self)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -39,10 +37,6 @@ class Scene0(QGraphicsScene):
         # self.view.show() # scene 하나만 단일로 테스트 할때 활성화
         self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-
-    # def border(self):
-    #     if
-
 
     def keyPressEvent(self, event):
         player.keys_pressed.add(event.key())
@@ -56,14 +50,9 @@ class Scene0(QGraphicsScene):
 
     def game_update(self):
         self.player1.move(player.keys_pressed)
-
-
-
-
-
-
-
-
+        self.player1.jump(player.keys_pressed)
+        self.player1.gravity_and_jump()
+        self.player1.grounddetect()
 
 
 if __name__ == '__main__':
