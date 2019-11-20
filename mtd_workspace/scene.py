@@ -28,7 +28,7 @@ class Scene0(QGraphicsScene):
 
         # 파이어보이 생성 및 좌표 지정
         self.player1 = player.Player1()
-        self.player1.setPos(200, 515)  # 땅에 선것처럼 하려면 540임
+        self.player1.setPos(200, 200)  # 땅에 선것처럼 하려면 520임
         self.addItem(self.player1)
 
         self.view = QGraphicsView(self)
@@ -39,20 +39,25 @@ class Scene0(QGraphicsScene):
         self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     def keyPressEvent(self, event):
-        player.keys_pressed.add(event.key())
+        self.player1.P1_keys_pressed.add(event.key())
 
     def keyReleaseEvent(self, event):
-        player.keys_pressed.remove(event.key())
+        self.player1.P1_keys_pressed.remove(event.key())
 
     def timerEvent(self, event):
         self.game_update()
         self.update()
 
     def game_update(self):
-        self.player1.move(player.keys_pressed)
-        self.player1.jump(player.keys_pressed)
-        self.player1.gravity_and_jump()
-        self.player1.grounddetect()
+        self.player1.key_in()
+        self.player1.jump_key_in()
+        self.player1.ground_detect()
+        self.player1.gravity()
+        self.player1.jumping()
+        self.player1.move_per_frame()
+        self.player1.inertia()
+        self.player1.char_animate()
+        # print(player.P1_keys_pressed)  # 키 인식 체크용
 
 
 if __name__ == '__main__':
