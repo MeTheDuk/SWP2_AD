@@ -38,26 +38,38 @@ class Scene0(QGraphicsScene):
         self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
+        # 맵 생성
+        self.test = Solid()
+        self.addItem(self.test)
+        self.test.setPos(400, 400)
+
     def keyPressEvent(self, event):
-        self.player1.P1_keys_pressed.add(event.key())
+        self.player1.keys_pressed.add(event.key())
 
     def keyReleaseEvent(self, event):
-        self.player1.P1_keys_pressed.remove(event.key())
+        self.player1.keys_pressed.remove(event.key())
 
     def timerEvent(self, event):
         self.game_update()
         self.update()
 
     def game_update(self):
-        self.player1.key_in()
-        self.player1.jump_key_in()
         self.player1.ground_detect()
+        self.player1.char_animate()
+        self.player1.key_in()
+        self.player1.jump()
         self.player1.gravity()
-        self.player1.jumping()
         self.player1.move_per_frame()
         self.player1.inertia()
-        self.player1.char_animate()
-        # print(player.P1_keys_pressed)  # 키 인식 체크용
+        # print(self.player1.jumped)  # 키 인식 체크용
+        # print(self.player1.jump_excel)
+
+
+class Solid(QGraphicsPixmapItem):
+    def __init__(self):
+        QGraphicsPixmapItem.__init__(self)
+        self.setPixmap(QPixmap("wall1.jpg"))
+        self.setScale(0.02)
 
 
 if __name__ == '__main__':

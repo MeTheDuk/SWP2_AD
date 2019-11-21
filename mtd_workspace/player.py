@@ -5,18 +5,16 @@ from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
                              QGraphicsRectItem, QGraphicsScene, QGraphicsView,
                              QFrame)
 
-# P1_keys_pressed = set()
 
-
-MAX_SPEED = 6
-JUMP_HEIGHT = 120
+MAX_SPEED = 4
 gravity_excel = 0.2
-jump_excel = 0.4
-
-excel = 0.4
-inertia = 0.1
+JUMP_EXCEL_DEFAULT = -0.8
+JUMP_HEIGHT = 20
+excel = 0.6
+inertia = 0.2
 
 excel_stop = 0.1
+same_chip_frame = 4
 
 
 class Player1(QGraphicsPixmapItem):
@@ -26,16 +24,20 @@ class Player1(QGraphicsPixmapItem):
         self.setPixmap(QPixmap("f_stand.png"))
         self.setScale(0.25)
 
-        self.P1_keys_pressed = set()
+        self.keys_pressed = set()
 
-        self.standing = False
-        self.jumped = False
-        self.excel_horizontal = 0
-        self.excel_vertical = 0
-        self.jump_frame = 90  # 90프레임동안 상승
-        self.animate_num = 1
+        self.standing = False  # 땅에 서있는가 서있지 않는가
+        self.jumped = False  # 점프를 했는가 안했는가
+        self.jump_frame = 30  # 점프를 할 프레임.
+        self.excel_horizontal = 0  # 수평 방향 가속도.
+        self.excel_vertical = 0  # 수직 방향 가속도.
+        self.jump_excel = JUMP_EXCEL_DEFAULT  # 점프력 설정. 전역 변수 JUMP_EXCEL_DEFAULT를 받아옴.
+        self.animate_num = 0  # 캐릭터가 움직이는 것 처럼 보이게 하기위한 캐릭터 칩의 번호.
+        self.last_chip_num = 5  # 한 캐릭터가 가진 캐릭터 칩의 마지막 번호(0~5번까지임)
+        self.y_before_jump = 0  # 점프 전 y좌표 저장
+        self.collidingItems(Qt.IntersectsItemShape)
 
-    def key_in(self):
+    def key_in(self):  # 키 인식, 맵 양 옆 끝이면 더이상 못가게 함.
         if self.x() >= -3:
             end_L = False
         else:
@@ -53,34 +55,36 @@ class Player1(QGraphicsPixmapItem):
             self.setX(759)
             self.excel_horizontal = 0
 
-        if Qt.Key_Left in self.P1_keys_pressed and end_L is False:
+        if Qt.Key_Left in self.keys_pressed and end_L is False:
             self.excel_horizontal -= excel
 
-        if Qt.Key_Right in self.P1_keys_pressed and end_R is False:
+        if Qt.Key_Right in self.keys_pressed and end_R is False:
             self.excel_horizontal += excel
 
+        if Qt.Key_Up in self.keys_pressed:
+            if self.standing is True:
+                self.standing = False
+                self.jumped = True
+                self.setY(self.y()-10)
+                self.y_before_jump = self.y()
 
-    def gravity(self):
+    def gravity(self):  # 땅에 있는거 아니면 중력 가속도 받음
         if self.standing is False:
             self.excel_vertical += gravity_excel
 
-    def ground_detect(self):
+    def ground_detect(self):  # 땅인지 아닌지 감지. 땅이면 standing을 True로
         if self.y() >= 520:
-            self.excel_vertical = 0
             self.standing = True
-        # if self.collidesWithItem():
+            self.excel_vertical = 0
+        # if self.collidesWithItem(QGraphi
 
-    def jump_key_in(self):
-        if (Qt.Key_Up in self.P1_keys_pressed) and (self.standing is True):
-            self.standing = False
-            self.jumped = True
 
-    def jumping(self):
+
+    def jump(self):  # 점프 처리.
         if self.jumped is True:
-            self.excel_vertical -= jump_excel
-            self.jump_frame -= 1
-        if self.jump_frame == 0:
-            self.jump_frame = 90
+            self.excel_vertical += self.jump_excel
+
+        if self.y_before_jump-self.y() >= JUMP_HEIGHT:
             self.jumped = False
 
     def move_per_frame(self):
@@ -95,10 +99,10 @@ class Player1(QGraphicsPixmapItem):
         self.setPos(self.x() + self.excel_horizontal, self.y() + self.excel_vertical)
 
     def inertia(self):
-        if (Qt.Key_Left, Qt.Key_Right) not in self.P1_keys_pressed:
-            if self.excel_horizontal < -2 * inertia:
+        if (Qt.Key_Left, Qt.Key_Right) not in self.keys_pressed:
+            if self.excel_horizontal < -1.5 * inertia:
                 self.excel_horizontal += inertia
-            elif self.excel_horizontal > 2 * inertia:
+            elif self.excel_horizontal > 1.5 * inertia:
                 self.excel_horizontal -= inertia
 
         if -0.3 <= self.excel_horizontal <= 0.3:
@@ -106,22 +110,21 @@ class Player1(QGraphicsPixmapItem):
             self.setPixmap(QPixmap("f_stand.png"))
 
     def char_animate(self):
-
         if self.excel_horizontal < 0:
-            self.setPixmap(QPixmap("f_left_{}.png".format(self.animate_num)))
-            if self.animate_num > 5:
-                self.animate_num = 1
+            self.setPixmap(QPixmap("f_left_{}.png".format(self.animate_num//same_chip_frame)))
+            if self.animate_num == same_chip_frame*self.last_chip_num:
+                self.animate_num = -1
             self.animate_num += 1
 
         if self.excel_horizontal > 0:
-            self.setPixmap(QPixmap("f_right_{}.png".format(self.animate_num)))
-            if self.animate_num > 5:
-                self.animate_num = 1
+            self.setPixmap(QPixmap("f_right_{}.png".format(self.animate_num//same_chip_frame)))
+            if self.animate_num == same_chip_frame*self.last_chip_num:
+                self.animate_num = -1
             self.animate_num += 1
 
         if self.excel_horizontal == 0:
             self.animate_num = 1
             QPixmap("f_stand.png")
 
-        if self.animate_num > 60:
-            self.animate_num = 1
+
+

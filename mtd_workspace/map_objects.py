@@ -7,8 +7,4 @@ from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
 import player
 
 
-# class Solid(QGraphicsRectItem):
-#     def __init__(self, posx, posy, x, y):
-#         QGraphicsRectItem.__init__(self)
-#
-#
+
