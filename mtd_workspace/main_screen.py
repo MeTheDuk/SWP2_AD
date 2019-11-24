@@ -18,10 +18,11 @@ WINDOW_HEIGHT           = 600
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None, scene2show=None):
+    def __init__(self):
         super().__init__()
 
-        self.stage_test = scene.Scene0()
+        self.title = scene.Title()
+        self.stage_0 = scene.Scene0()
 
         self.setWindowTitle("MainWindow")
         self.setStyleSheet("background:black;")
@@ -30,26 +31,14 @@ class MainWindow(QMainWindow):
         self.initWindow()
 
     def initWindow(self):
-        view = QGraphicsView(self.stage_test, self)
+        view = QGraphicsView(self.title, self)
         view.setGeometry(0, 0, 800, 600)
 
         view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
         self.show()
-    #
-    # def keyPressEvent(self, event):
-    #     player.keys_pressed.add(event.key())
-    #
-    # def keyReleaseEvent(self, event):
-    #     player.keys_pressed.remove(event.key())
-    #
-    # def timerEvent(self, event):
-    #     self.game_update()
-    #     self.update()
-    #
-    # def game_update(self):
-    #     self.player1.move(player.keys_pressed)
-    #     # self.player2
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
