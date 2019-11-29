@@ -4,3 +4,10 @@
 
 ### ~pygame이라도 배워보고싶긴 한데~
 
+
+## 사용 모듈
+-----
+### import sys
+### from PyQt5.QtCore import Qt, QBasicTimer
+### from PyQt5.QtGui import QBrush, QPixmap
+### from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,QGraphicsRectItem, QGraphicsScene, QGraphicsView,QFrame)
