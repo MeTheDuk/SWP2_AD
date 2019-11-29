@@ -11,6 +11,32 @@ class f_door(QGraphicsPixmapItem):
     def __init__(self):
         QGraphicsPixmapItem.__init__(self)
         self.setPixmap(QPixmap("f_door.jpg"))
+        self.opened = False
+
+    def open(self, fire):
+        if self.collidesWithItem(fire) is True:
+            self.setPixmap(QPixmap("door_opened.png"))
+            self.opened = True
+        else:
+            self.setPixmap(QPixmap("f_door.png"))
+            self.opened = False
+
+
+class w_door(QGraphicsPixmapItem):
+    def __init__(self):
+        QGraphicsPixmapItem.__init__(self)
+        self.setPixmap(QPixmap("w_door.jpg"))
+        self.opened = False
+
+    def open(self, water):
+        if self.collidesWithItem(water) is True:
+            self.setPixmap(QPixmap("door_opened.png"))
+            self.opened = True
+        else:
+            self.setPixmap(QPixmap("w_door.png"))
+            self.opened = False
+
+
 
 
 

@@ -48,8 +48,6 @@ class MainWindow(QMainWindow):
     def changeScene(self):
         if self.title.cleared is True:
             self.view.setScene(self.stage_0)
-            self.title.__del__()
-
 
 
 if __name__ == '__main__':

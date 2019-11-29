@@ -36,19 +36,19 @@ class Title(QGraphicsScene):
         self.addItem(start)
         start.setPos(127, 400)
 
-    def __del__(self):
-        print("del")
-
     def timerEvent(self, event):
         if len(self.keys_pressed) > 0:
             self.cleared = True
-        print(self.cleared)
+        # print(self.cleared)
 
     def keyPressEvent(self, event):  # 키 입력 이벤트 핸들러
         self.keys_pressed.add(event.key())
 
     def keyReleaseEvent(self, event):  # 키 입력 해제 이벤트 핸들러
-        self.keys_pressed.remove(event.key())
+        try:
+            self.keys_pressed.remove(event.key())
+        except KeyError:
+            pass
 
         # # 그래픽 뷰 설정
         # self.view = QGraphicsView(self)
@@ -76,12 +76,12 @@ class Scene0(QGraphicsScene):
 
         # 파이어보이 생성 및 좌표 지정
         self.player1 = player.Player1()
-        self.player1.setPos(600, 200)
+        self.player1.setPos(600, 0)
         self.addItem(self.player1)
 
         # 워터걸 생성 및 좌표 지정
         self.player2 = player.Player2()
-        self.player2.setPos(200, 200)
+        self.player2.setPos(200, 0)
         self.addItem(self.player2)
 
         # 맵 조성
@@ -102,13 +102,21 @@ class Scene0(QGraphicsScene):
         self.player1.ground_detect(self.terrain1)
         self.player2.ground_detect(self.terrain1)
 
+    # def object_update(self):  # 맵에 있는 오브젝트들의 변화를 감지.
+
+
+
+
     def keyPressEvent(self, event):  # 키 입력 이벤트 핸들러
         self.player1.keys_pressed.add(event.key())
         self.player2.keys_pressed.add(event.key())
 
     def keyReleaseEvent(self, event):  # 키 입력 해제 이벤트 핸들러
-        self.player1.keys_pressed.remove(event.key())
-        self.player2.keys_pressed.remove(event.key())
+        try:
+            self.player1.keys_pressed.remove(event.key())
+            self.player2.keys_pressed.remove(event.key())
+        except KeyError:
+            pass
 
     def game_update(self):
         self.terrain_detect()
