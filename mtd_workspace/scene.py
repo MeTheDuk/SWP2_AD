@@ -22,7 +22,9 @@ class Title(QGraphicsScene):
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
 
+        self.mainscene = True
         self.keys_pressed = set()
+        self.cleared = False
 
         bg = QGraphicsPixmapItem()
         bg.setPixmap(QPixmap("title.png"))
@@ -34,28 +36,27 @@ class Title(QGraphicsScene):
         self.addItem(start)
         start.setPos(127, 400)
 
+    def __del__(self):
+        print("del")
+
+    def timerEvent(self, event):
+        if len(self.keys_pressed) > 0:
+            self.cleared = True
+        print(self.cleared)
+
     def keyPressEvent(self, event):  # 키 입력 이벤트 핸들러
         self.keys_pressed.add(event.key())
 
     def keyReleaseEvent(self, event):  # 키 입력 해제 이벤트 핸들러
         self.keys_pressed.remove(event.key())
 
-    def timerEvent(self, event):
-        if len(self.keys_pressed) > 0:
-            return 1
-
-
-
-
-
-
-        # 그래픽 뷰 설정
-        self.view = QGraphicsView(self)
-        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-        self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-        self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        # # 그래픽 뷰 설정
+        # self.view = QGraphicsView(self)
+        # self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        # self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        #
+        # self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
+        # self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
 
 class Scene0(QGraphicsScene):
@@ -65,6 +66,7 @@ class Scene0(QGraphicsScene):
         # 60hz에 가까운 주기로 새로고침함(16ms에 1번 = 960ms(0.96초)에 16번)
         self.timer = QBasicTimer()
         self.timer.start(FRAME_TIME_MS, self)
+        self.cleared = False
 
         # 배경 사진 설정
         bg = QGraphicsPixmapItem()
@@ -89,12 +91,12 @@ class Scene0(QGraphicsScene):
         self.addItem(self.terrain1)
 
         # 그래픽 뷰 설정
-        self.view = QGraphicsView(self)
-        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-        self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-        self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        # self.view = QGraphicsView(self)
+        # self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        # self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        #
+        # self.view.setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT)
+        # self.setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     def terrain_detect(self):  # 플레이어와 모든 지형의 접촉을 감지해줘야 함.
         self.player1.ground_detect(self.terrain1)
@@ -110,20 +112,8 @@ class Scene0(QGraphicsScene):
 
     def game_update(self):
         self.terrain_detect()
-
-        self.player1.char_animate()
-        self.player1.key_in()
-        self.player1.jump()
-        self.player1.gravity()
-        self.player1.move_per_frame()
-        self.player1.inertia()
-
-        self.player2.char_animate()
-        self.player2.key_in()
-        self.player2.jump()
-        self.player2.gravity()
-        self.player2.move_per_frame()
-        self.player2.inertia()
+        self.player1.player1_update()
+        self.player2.player2_update()
 
         # print(self.player1.jumped)  # 키 인식 체크용
         # print(self.player1.excel_vertical)

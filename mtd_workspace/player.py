@@ -144,6 +144,13 @@ class Player1(QGraphicsPixmapItem):
             self.animate_num = 1
             QPixmap("f_stand.png")
 
+    def player1_update(self):
+        self.char_animate()
+        self.key_in()
+        self.jump()
+        self.gravity()
+        self.move_per_frame()
+        self.inertia()
 
 class Player2(QGraphicsPixmapItem):
 
@@ -270,3 +277,11 @@ class Player2(QGraphicsPixmapItem):
         if self.excel_horizontal == 0:
             self.animate_num = 1
             QPixmap("w_stand.png")
+
+    def player2_update(self):
+        self.char_animate()
+        self.key_in()
+        self.jump()
+        self.gravity()
+        self.move_per_frame()
+        self.inertia()

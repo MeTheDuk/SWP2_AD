@@ -1,5 +1,6 @@
 
 import sys
+import time
 from PyQt5.QtCore import Qt, QBasicTimer
 from PyQt5.QtGui import QBrush, QPixmap
 from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
@@ -28,16 +29,27 @@ class MainWindow(QMainWindow):
         self.setStyleSheet("background:black;")
         self.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT)
 
+        self.view = QGraphicsView(QGraphicsScene(None), self)
+        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.initWindow()
+        self.show()
+
+        self.timer = QBasicTimer()
+        self.timer.start(16, self)
 
     def initWindow(self):
-        view = QGraphicsView(self.title, self)
-        view.setGeometry(0, 0, 800, 600)
+        self.view.setGeometry(0, 0, 800, 600)
+        self.view.setScene(self.title)
 
-        view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    def timerEvent(self, event):
+        self.changeScene()
 
-        self.show()
+    def changeScene(self):
+        if self.title.cleared is True:
+            self.view.setScene(self.stage_0)
+            self.title.__del__()
+
 
 
 if __name__ == '__main__':
