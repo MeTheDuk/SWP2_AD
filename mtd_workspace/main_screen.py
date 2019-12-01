@@ -22,8 +22,12 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.loading = QGraphicsScene(0, 0, 800, 600)
+        self.loading.setBackgroundBrush(QBrush(Qt.black))
+
         self.title = scene.Title()
         self.stage_0 = scene.Scene0()
+        self.stage_1 = scene.Scene1()
 
         self.setWindowTitle("MainWindow")
         self.setStyleSheet("background:black;")
@@ -32,22 +36,30 @@ class MainWindow(QMainWindow):
         self.view = QGraphicsView(QGraphicsScene(None), self)
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.initWindow()
-        self.show()
+        self.view.setGeometry(0, 0, 800, 600)
+        self.view.setScene(self.title)
 
         self.timer = QBasicTimer()
         self.timer.start(16, self)
 
-    def initWindow(self):
-        self.view.setGeometry(0, 0, 800, 600)
-        self.view.setScene(self.title)
+        self.show()
 
     def timerEvent(self, event):
         self.changeScene()
 
     def changeScene(self):
-        if self.title.cleared is True:
+        if self.view.scene() == self.title and self.title.cleared is True:
+            self.title.cleared = False
             self.view.setScene(self.stage_0)
+
+        if self.view.scene() == self.stage_0 and self.stage_0.cleared is True:
+            self.stage_0.cleared = False
+            self.view.setScene(self.loading)
+            # self.timer.stop()
+            time.sleep(1)
+            # self.timer.isActive()
+            self.view.setScene(scene.Scene1())
+
 
 
 if __name__ == '__main__':

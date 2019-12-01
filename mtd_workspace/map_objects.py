@@ -10,7 +10,8 @@ import player
 class f_door(QGraphicsPixmapItem):
     def __init__(self):
         QGraphicsPixmapItem.__init__(self)
-        self.setPixmap(QPixmap("f_door.jpg"))
+        self.setPixmap(QPixmap("f_door_0.png"))
+        self.setScale(0.2)
         self.opened = False
 
     def open(self, fire):
@@ -18,14 +19,15 @@ class f_door(QGraphicsPixmapItem):
             self.setPixmap(QPixmap("door_opened.png"))
             self.opened = True
         else:
-            self.setPixmap(QPixmap("f_door.png"))
+            self.setPixmap(QPixmap("f_door_0.png"))
             self.opened = False
 
 
 class w_door(QGraphicsPixmapItem):
     def __init__(self):
         QGraphicsPixmapItem.__init__(self)
-        self.setPixmap(QPixmap("w_door.jpg"))
+        self.setPixmap(QPixmap("w_door.png"))
+        self.setScale(0.2)
         self.opened = False
 
     def open(self, water):
@@ -35,9 +37,6 @@ class w_door(QGraphicsPixmapItem):
         else:
             self.setPixmap(QPixmap("w_door.png"))
             self.opened = False
-
-
-
 
 
 class SolidRect(QGraphicsRectItem):
@@ -61,4 +60,21 @@ class SolidRect(QGraphicsRectItem):
     #             a_player.
     #             a_player.setY(a_player.y+5)
 
+
+class button(QGraphicsRectItem):
+    def __init__(self, slide):
+        QGraphicsRectItem.__init__(self)
+        self.setBrush(slide.brush())
+
+
+class Slide_H(QGraphicsRectItem):
+    def __init__(self, ax, ay, w, h):
+        QGraphicsRectItem.__init__(self)
+        self.top = ay
+        self.bottom = ay+h
+        self.left = ax
+        self.height = h
+        self.width = w
+        self.setRect(ax, ay, w, h)
+        self.setBrush(QColor.fromRgb(180, 50, 230))
 

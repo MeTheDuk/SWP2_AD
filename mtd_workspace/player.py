@@ -152,6 +152,7 @@ class Player1(QGraphicsPixmapItem):
         self.move_per_frame()
         self.inertia()
 
+
 class Player2(QGraphicsPixmapItem):
 
     def __init__(self, parent=None):
