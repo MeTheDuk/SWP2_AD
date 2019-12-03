@@ -51,23 +51,43 @@ class SolidRect(QGraphicsRectItem):
         self.setRect(ax, ay, w, h)
         self.setBrush(QColor.fromRgb(99, 66, 33))
 
-    # def playerDetect(self, a_player):
-    #     if self.collidesWithItem(a_player):
-    #         # if a_player.y()+a_player.height > self.y():
-    #         #     a_player.standing = True
-    #         if a_player.y() < self.y()+self.height:
-    #             a_player.jumped = False
-    #             a_player.
-    #             a_player.setY(a_player.y+5)
+
+class PoolFire(QGraphicsPixmapItem):
+    def __init__(self):
+        QGraphicsPixmapItem.__init__(self)
+        self.setPixmap(QPixmap("zone_fire.png"))
+
+    def kill_water(self, water):
+        if self.collidesWithItem(water) is True:
+            water.setVisible(False)
 
 
-class button(QGraphicsRectItem):
-    def __init__(self, slide):
+class PoolWater(QGraphicsPixmapItem):
+    def __init__(self, ax, ay):
+        QGraphicsPixmapItem.__init__(self)
+        self.setPixmap(QPixmap("zone_water.png"))
+        self.setPos(ax, ay)
+        self.setScale(0.15)
+
+    def kill_fire(self, fire):
+        if self.collidesWithItem(fire) is True:
+            fire.setVisible(False)
+
+
+
+class Button(QGraphicsRectItem):
+    def __init__(self, slide, ax, ay):
         QGraphicsRectItem.__init__(self)
+        self.setRect(ax, ay, 30, 10)
         self.setBrush(slide.brush())
 
+    def push(self, object, slide):
+        if self.collidesWithItem(object) is True:
+            slide.slide(object)
 
-class Slide_H(QGraphicsRectItem):
+
+class Slide_V(QGraphicsRectItem):
+
     def __init__(self, ax, ay, w, h):
         QGraphicsRectItem.__init__(self)
         self.top = ay
@@ -77,4 +97,20 @@ class Slide_H(QGraphicsRectItem):
         self.width = w
         self.setRect(ax, ay, w, h)
         self.setBrush(QColor.fromRgb(180, 50, 230))
+
+    def collide(self, player):
+        if self.collidesWithItem(player) is True:
+            if player.x() < self.x():
+                player.setX(player.x()-1)
+            elif player.x() > self.x():
+                player.setX(player.x()+1)
+
+    def slide(self, a_button, object):
+        if a_button.collidesWithItem(object) is True:
+            if self.top - 60 < self.y():
+                self.setY(self.y()-0.4)
+        else:
+            if self.y() > self.top:
+                self.setY(self.y()+0.4)
+
 
