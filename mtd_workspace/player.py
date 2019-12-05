@@ -31,7 +31,6 @@ class Player1(QGraphicsPixmapItem):
         self.height = self.sceneBoundingRect().height()  # 57
         self.standing = False  # 땅에 서있는가 서있지 않는가
         self.jumped = False  # 점프를 했는가 안했는가
-        self.jump_frame = 30  # 점프를 할 프레임.
 
         self.foot_y = 0
 
@@ -166,7 +165,6 @@ class Player2(QGraphicsPixmapItem):
         self.height = self.sceneBoundingRect().height()  # 57
         self.standing = False  # 땅에 서있는가 서있지 않는가
         self.jumped = False  # 점프를 했는가 안했는가
-        self.jump_frame = 30  # 점프를 할 프레임.
 
         self.foot_y = 0
 
@@ -286,3 +284,4 @@ class Player2(QGraphicsPixmapItem):
         self.gravity()
         self.move_per_frame()
         self.inertia()
+

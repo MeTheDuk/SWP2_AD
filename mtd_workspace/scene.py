@@ -248,16 +248,20 @@ class Scene2(QGraphicsScene):
         # 맵 조성
         self.terrain1 = SolidRect(0, 560, 800, 40)  # 제일 밑 땅.
         self.addItem(self.terrain1)
-        self.pool1 = PoolWater(200, 560)
+        self.pool1 = PoolWater(200, 559)
         self.addItem(self.pool1)
+        self.pool2 = PoolFire(500, 559)
+        self.addItem(self.pool2)
+        self.terrain2 = SolidRect(0, 350, 540, 40)
+        self.addItem(self.terrain2)
 
         # 맵 object 추가
         self.f_door = f_door()
-        self.f_door.setPos(729, 560-64)
+        self.f_door.setPos(0, 350-64)
         self.addItem(self.f_door)
 
         self.w_door = w_door()
-        self.w_door.setPos(669, 560-64)
+        self.w_door.setPos(60, 350-64)
         self.addItem(self.w_door)
 
         self.spawn()
@@ -275,13 +279,17 @@ class Scene2(QGraphicsScene):
 
     def terrain_detect(self):  # 플레이어와 모든 지형의 접촉을 감지해줘야 함.
         self.player1.ground_detect(self.terrain1)
+        self.player1.ground_detect(self.terrain2)
 
         self.player2.ground_detect(self.terrain1)
+        self.player2.ground_detect(self.terrain2)
 
-    def object_update(self):  # 맵에 있는 오브젝트들의 변화를 감지.
+    def object_update(self):  # 맵에 있는 w오브젝트들의 변화를 감지.
         self.f_door.open(self.player1)
         self.w_door.open(self.player2)
         self.pool1.kill_fire(self.player1)
+        self.pool2.kill_water(self.player2)
+
         self.death()
         self.stage_clear_detect()
 
@@ -291,7 +299,6 @@ class Scene2(QGraphicsScene):
             self.player2.setVisible(False)
             time.sleep(1)
             self.spawn()
-
 
     def stage_clear_detect(self):
         if self.f_door.opened and self.w_door.opened:
@@ -317,11 +324,4 @@ class Scene2(QGraphicsScene):
     def timerEvent(self, event):
         self.game_update()
         self.update()
-
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    scene = Scene0()
-    sys.exit(app.exec_())
 
