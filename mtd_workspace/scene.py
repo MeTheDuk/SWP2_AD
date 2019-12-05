@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
                              QFrame)
 
 import player
-from map_objects import SolidRect, f_door, w_door, PoolFire, PoolWater
+from map_objects import SolidRect, f_door, w_door, PoolFire, PoolWater, PoolPoison
 
 SCREEN_WIDTH            = 800
 SCREEN_HEIGHT           = 600
@@ -250,18 +250,26 @@ class Scene2(QGraphicsScene):
         self.addItem(self.terrain1)
         self.pool1 = PoolWater(200, 559)
         self.addItem(self.pool1)
-        self.pool2 = PoolFire(500, 559)
+        self.pool2 = PoolFire(450, 559)
         self.addItem(self.pool2)
-        self.terrain2 = SolidRect(0, 350, 540, 40)
+        self.terrain2 = SolidRect(200, 350, 300, 30)
         self.addItem(self.terrain2)
+        self.terrain3 = SolidRect(275, 270, 150, 20)
+        self.addItem(self.terrain3)
+        self.terrain4 = SolidRect(0, 300, 150, 40)
+        self.addItem(self.terrain4)
+        self.pool3 = PoolPoison(275, 349)
+        self.pool4 = PoolPoison(325, 349)
+        self.addItem(self.pool3)
+        self.addItem(self.pool4)
 
         # 맵 object 추가
         self.f_door = f_door()
-        self.f_door.setPos(0, 350-64)
+        self.f_door.setPos(0, 300-64)
         self.addItem(self.f_door)
 
         self.w_door = w_door()
-        self.w_door.setPos(60, 350-64)
+        self.w_door.setPos(60, 300-64)
         self.addItem(self.w_door)
 
         self.spawn()
@@ -280,9 +288,13 @@ class Scene2(QGraphicsScene):
     def terrain_detect(self):  # 플레이어와 모든 지형의 접촉을 감지해줘야 함.
         self.player1.ground_detect(self.terrain1)
         self.player1.ground_detect(self.terrain2)
+        self.player1.ground_detect(self.terrain3)
+        self.player1.ground_detect(self.terrain4)
 
         self.player2.ground_detect(self.terrain1)
         self.player2.ground_detect(self.terrain2)
+        self.player2.ground_detect(self.terrain3)
+        self.player2.ground_detect(self.terrain4)
 
     def object_update(self):  # 맵에 있는 w오브젝트들의 변화를 감지.
         self.f_door.open(self.player1)

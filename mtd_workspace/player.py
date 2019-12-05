@@ -10,7 +10,7 @@ from map_objects import SolidRect
 MAX_SPEED = 4
 gravity_excel = 0.2
 JUMP_EXCEL_DEFAULT = -0.8
-JUMP_HEIGHT = 20
+JUMP_HEIGHT = 17.6
 excel = 0.6
 inertia = 0.2
 
@@ -40,7 +40,6 @@ class Player1(QGraphicsPixmapItem):
         self.animate_num = 0  # 캐릭터가 움직이는 것 처럼 보이게 하기위한 캐릭터 칩의 번호.
         self.last_chip_num = 5  # 한 캐릭터가 가진 캐릭터 칩의 마지막 번호(0~5번까지임)
         self.y_before_jump = 0  # 점프 전 y좌표 저장
-        self.collidingItems(Qt.IntersectsItemShape)
 
     def key_in(self):  # 키 인식, 맵 양 옆 끝이면 더이상 못가게 함.
         if self.x() >= -3:
@@ -174,7 +173,6 @@ class Player2(QGraphicsPixmapItem):
         self.animate_num = 0  # 캐릭터가 움직이는 것 처럼 보이게 하기위한 캐릭터 칩의 번호.
         self.last_chip_num = 5  # 한 캐릭터가 가진 캐릭터 칩의 마지막 번호(0~5번까지임)
         self.y_before_jump = 0  # 점프 전 y좌표 저장
-        self.collidingItems(Qt.IntersectsItemShape)
 
     def key_in(self):  # 키 인식, 맵 양 옆 끝이면 더이상 못가게 함.
         if self.x() >= -3:
