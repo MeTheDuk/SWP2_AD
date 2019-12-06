@@ -83,7 +83,7 @@ class PoolPoison(QGraphicsPixmapItem):
         self.setPos(ax, ay)
         self.setScale(0.15)
 
-    def kill_fire(self, fire, water):
+    def kill_all(self, fire, water):
         if self.collidesWithItem(fire) is True:
             fire.setVisible(False)
         if self.collidesWithItem(water) is True:
@@ -94,11 +94,12 @@ class Button(QGraphicsRectItem):
     def __init__(self, slide, ax, ay):
         QGraphicsRectItem.__init__(self)
         self.setRect(ax, ay, 30, 10)
-        self.setBrush(slide.brush())
+        self.setBrush(QColor.fromRgb(180, 50, 230))
         self.pushed = False
+        self.slide = slide
 
-    def push_detect(self, obj):
-        if self.collidesWithItem(obj) is True:
+    def push_detect(self, p1, p2):
+        if self.collidesWithItem(p1) or self.collidesWithItem(p2) is True:
             self.pushed = True
             self.setVisible(False)
         else:
@@ -117,21 +118,26 @@ class Slide_V(QGraphicsRectItem):
         self.width = w
         self.setRect(ax, ay, w, h)
         self.setBrush(QColor.fromRgb(180, 50, 230))
+        self.on = False
 
     def collide(self, aplayer):
         if self.collidesWithItem(aplayer) is True:
-            if aplayer.x() < self.x():
-                aplayer.setX(aplayer.x()-1)
-            elif aplayer.x() > self.x():
-                aplayer.setX(aplayer.x()+1)
+            if aplayer.x() + aplayer.width >= self.sceneBoundingRect().x():
+                aplayer.setX(aplayer.x()-2)
+                aplayer.excel_horizontal = 0
+            elif aplayer.x() <= self.sceneBoundingRect().x()+self.width:
+                aplayer.setX(aplayer.x()+2)
+                aplayer.excel_horizontal = 0
 
-    def slide(self, a_button):
-        if a_button.pushed is True:
-            if self.top - 60 < self.y():
-                self.setY(self.y()-0.4)
+    def slide(self, a_button, b_button):
+        if a_button.pushed or b_button.pushed is True:
+            if self.sceneBoundingRect().top() - self.top < 80.8:
+                self.setY(self.y()+0.8)
+
         else:
-            if self.y() > self.top:
-                self.setY(self.y()+0.4)
+            if self.sceneBoundingRect().y() > self.top:
+                print(self.top)
+                self.setY(self.y()-0.8)
 
 
 

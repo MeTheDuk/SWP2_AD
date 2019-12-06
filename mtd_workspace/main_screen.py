@@ -29,6 +29,8 @@ class MainWindow(QMainWindow):
         self.stage_0 = scene.Scene0()
         self.stage_1 = scene.Scene1()
         self.stage_2 = scene.Scene2()
+        self.stage_3 = scene.Scene3()
+        self.end = scene.End()
 
         self.setWindowTitle("MainWindow")
         self.setStyleSheet("background:black;")
@@ -51,7 +53,7 @@ class MainWindow(QMainWindow):
     def changeScene(self):
         if self.view.scene() == self.title and self.title.cleared is True:
             self.title.cleared = False
-            self.view.setScene(self.stage_0)
+            self.view.setScene(self.stage_3)
 
         if self.view.scene() == self.stage_0 and self.stage_0.cleared is True:
             self.stage_0.cleared = False
@@ -65,7 +67,15 @@ class MainWindow(QMainWindow):
             time.sleep(1)
             self.view.setScene(self.stage_2)
 
+        if self.view.scene() == self.stage_2 and self.stage_2.cleared is True:
+            self.stage_2.cleared = False
+            self.view.setScene(self.loading)
+            time.sleep(1)
+            self.view.setScene(self.stage_3)
 
+        if self.view.scene() == self.stage_3 and self.stage_3.cleared is True:
+            time.sleep(1)
+            self.view.setScene(self.end)
 
 
 if __name__ == '__main__':

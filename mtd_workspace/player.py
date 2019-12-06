@@ -221,7 +221,7 @@ class Player2(QGraphicsPixmapItem):
             #     self.standing = True
             #     self.excel_vertical = 0
 
-            if (self.jumped is True) and (self.y() <= a_SolidRect.bottom):
+            if (self.jumped is True) and (self.sceneBoundingRect().y() <= a_SolidRect.bottom):
                 self.jumped = False
                 self.standing = False
                 self.setY(a_SolidRect.bottom+3)
