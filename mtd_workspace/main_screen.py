@@ -53,7 +53,7 @@ class MainWindow(QMainWindow):
     def changeScene(self):
         if self.view.scene() == self.title and self.title.cleared is True:
             self.title.cleared = False
-            self.view.setScene(self.stage_3)
+            self.view.setScene(self.stage_0)
 
         if self.view.scene() == self.stage_0 and self.stage_0.cleared is True:
             self.stage_0.cleared = False
