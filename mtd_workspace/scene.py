@@ -1,11 +1,9 @@
 
-import sys
+
 import time
-from PyQt5.QtCore import Qt, QBasicTimer
-from PyQt5.QtGui import QBrush, QPixmap
-from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
-                             QGraphicsRectItem, QGraphicsScene, QGraphicsView,
-                             QFrame)
+from PyQt5.QtCore import QBasicTimer
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QGraphicsPixmapItem, QGraphicsScene
 
 import player
 from map_objects import (SolidRect, f_door, w_door,

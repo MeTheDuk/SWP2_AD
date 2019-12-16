@@ -2,14 +2,13 @@
 import sys
 import time
 from PyQt5.QtCore import Qt, QBasicTimer
-from PyQt5.QtGui import QBrush, QPixmap
-from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
-                             QGraphicsRectItem, QGraphicsScene, QGraphicsView,
-                             QFrame, QMainWindow)
+from PyQt5.QtGui import QBrush, QPixmap, QColor
+from PyQt5.QtWidgets import (QApplication, QGraphicsPixmapItem,
+                             QGraphicsRectItem, QGraphicsScene,
+                             QGraphicsView, QMainWindow)
 
 '''
 게임을 실행하는 주 파일이자 모든것을 불러오는 화면.
-
 '''
 
 import scene

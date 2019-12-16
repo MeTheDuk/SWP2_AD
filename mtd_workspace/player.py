@@ -1,11 +1,7 @@
 
-from PyQt5.QtCore import Qt, QBasicTimer
-from PyQt5.QtGui import QBrush, QPixmap
-from PyQt5.QtWidgets import (QApplication, QGraphicsItem, QGraphicsPixmapItem,
-                             QGraphicsRectItem, QGraphicsScene, QGraphicsView,
-                             QFrame)
-
-from map_objects import SolidRect
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QGraphicsPixmapItem
 
 MAX_SPEED = 4
 gravity_excel = 0.2
