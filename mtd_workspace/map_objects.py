@@ -132,7 +132,6 @@ class Slide_V(QGraphicsRectItem):
 
         else:
             if self.sceneBoundingRect().y() > self.top:
-                print(self.top)
                 self.setY(self.y()-0.8)
 
 

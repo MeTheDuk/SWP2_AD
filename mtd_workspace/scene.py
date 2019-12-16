@@ -415,7 +415,7 @@ class Scene3(QGraphicsScene):
         self.slide_v1.slide(self.button_v1, self.button_v2)
 
         # print(self.slide_v1.y())
-        print(self.button_v1.pushed and self.button_v2.pushed)
+        # print(self.button_v1.pushed and self.button_v2.pushed)
 
         self.stage_clear_detect()
 
