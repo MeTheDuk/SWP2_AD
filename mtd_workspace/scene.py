@@ -103,6 +103,13 @@ class Scene0(QGraphicsScene):
         self.w_door.open(self.player2)
         self.stage_clear_detect()
 
+    def death(self):
+        if self.player1.isVisible() & self.player2.isVisible() is False:
+            self.player1.setVisible(False)
+            self.player2.setVisible(False)
+            time.sleep(1)
+            self.spawn()
+
     def stage_clear_detect(self):
         if self.f_door.opened and self.w_door.opened:
             self.cleared = True
@@ -203,6 +210,13 @@ class Scene1(QGraphicsScene):
         self.f_door.open(self.player1)
         self.w_door.open(self.player2)
         self.stage_clear_detect()
+
+    def death(self):
+        if self.player1.isVisible() & self.player2.isVisible() is False:
+            self.player1.setVisible(False)
+            self.player2.setVisible(False)
+            time.sleep(1)
+            self.spawn()
 
     def stage_clear_detect(self):
         if self.f_door.opened and self.w_door.opened:
@@ -418,6 +432,13 @@ class Scene3(QGraphicsScene):
         # print(self.button_v1.pushed and self.button_v2.pushed)
 
         self.stage_clear_detect()
+
+    def death(self):
+        if self.player1.isVisible() & self.player2.isVisible() is False:
+            self.player1.setVisible(False)
+            self.player2.setVisible(False)
+            time.sleep(1)
+            self.spawn()
 
     def stage_clear_detect(self):
         if self.f_door.opened and self.w_door.opened:
